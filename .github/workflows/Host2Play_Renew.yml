@@ -21,8 +21,7 @@ jobs:
         with:
           repository: ${{ github.repository_owner }}/Host2Play-Renew
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          path: private
-
+          
       - name: 配置 Python 环境
         uses: actions/setup-python@v5
         with:
