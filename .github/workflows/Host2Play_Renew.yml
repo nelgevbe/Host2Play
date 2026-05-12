@@ -19,15 +19,15 @@ jobs:
 
     steps:
       - name: 拉取私库脚本
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ github.repository_owner }}/Host2Play-Renew
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           
       - name: 配置 Python 环境
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
+          python-version: '3.13'
 
       - name: 安装系统依赖
         run: |
