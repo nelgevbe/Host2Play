@@ -3,7 +3,6 @@ name: Host2Play 续期
 on:
   schedule:
     - cron: '0 0,12 * * *'    # 触发点: 00:00, 12:00
-    #- cron: '30 5,16 * * *'      # 触发点: 05:30, 16:30
   workflow_dispatch:
 
 permissions:
@@ -13,19 +12,19 @@ permissions:
 jobs:
   run-renew:
     name: 执行脚本
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: 拉取私库脚本
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ github.repository_owner }}/Host2Play-Renew
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           
       - name: 配置 Python 环境
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: 安装系统依赖
         run: |
@@ -89,3 +88,13 @@ jobs:
           delete_workflow_pattern: ${{ github.workflow }}
           retain_days: 0
           keep_minimum_runs: 2
+
+  keepalive-workflow:
+    name: Keepalive Workflow
+    needs: run-renew
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@v1
